@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as HistoricalRouteImport } from './routes/historical'
 import { Route as IncidentRecordsRouteImport } from './routes/incident-records'
 import { Route as ModelInsightsRouteImport } from './routes/model-insights'
+import { Route as ResearchRouteImport } from './routes/research'
 import { Route as RiskMapRouteImport } from './routes/risk-map'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const ModelInsightsRoute = ModelInsightsRouteImport.update({
   path: '/model-insights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RiskMapRoute = RiskMapRouteImport.update({
   id: '/risk-map',
   path: '/risk-map',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/historical': typeof HistoricalRoute
   '/incident-records': typeof IncidentRecordsRoute
   '/model-insights': typeof ModelInsightsRoute
+  '/research': typeof ResearchRoute
   '/risk-map': typeof RiskMapRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/historical': typeof HistoricalRoute
   '/incident-records': typeof IncidentRecordsRoute
   '/model-insights': typeof ModelInsightsRoute
+  '/research': typeof ResearchRoute
   '/risk-map': typeof RiskMapRoute
 }
 export interface FileRoutesById {
@@ -61,21 +69,33 @@ export interface FileRoutesById {
   '/historical': typeof HistoricalRoute
   '/incident-records': typeof IncidentRecordsRoute
   '/model-insights': typeof ModelInsightsRoute
+  '/research': typeof ResearchRoute
   '/risk-map': typeof RiskMapRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/historical' | '/incident-records' | '/model-insights' | '/risk-map'
+    | '/'
+    | '/historical'
+    | '/incident-records'
+    | '/model-insights'
+    | '/research'
+    | '/risk-map'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/historical' | '/incident-records' | '/model-insights' | '/risk-map'
+    | '/'
+    | '/historical'
+    | '/incident-records'
+    | '/model-insights'
+    | '/research'
+    | '/risk-map'
   id:
     | '__root__'
     | '/'
     | '/historical'
     | '/incident-records'
     | '/model-insights'
+    | '/research'
     | '/risk-map'
   fileRoutesById: FileRoutesById
 }
@@ -84,6 +104,7 @@ export interface RootRouteChildren {
   HistoricalRoute: typeof HistoricalRoute
   IncidentRecordsRoute: typeof IncidentRecordsRoute
   ModelInsightsRoute: typeof ModelInsightsRoute
+  ResearchRoute: typeof ResearchRoute
   RiskMapRoute: typeof RiskMapRoute
 }
 
@@ -117,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModelInsightsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/risk-map': {
       id: '/risk-map'
       path: '/risk-map'
@@ -132,6 +160,7 @@ const rootRouteChildren: RootRouteChildren = {
   HistoricalRoute: HistoricalRoute,
   IncidentRecordsRoute: IncidentRecordsRoute,
   ModelInsightsRoute: ModelInsightsRoute,
+  ResearchRoute: ResearchRoute,
   RiskMapRoute: RiskMapRoute,
 }
 export const routeTree = rootRouteImport
