@@ -6,9 +6,9 @@ import { hexVertices } from "@/lib/geo";
 
 type Props = {
   cells: RiskCell[];
-  selectedId?: string | null;
+  selectedId?: string | null | undefined;
   onSelect: (cell: RiskCell) => void;
-  zoom?: number;
+  zoom?: number | undefined;
 };
 
 function Resizer() {

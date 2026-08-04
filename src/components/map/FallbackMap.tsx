@@ -4,10 +4,10 @@ import { cn } from "@/lib/utils";
 
 type Props = {
   cells: RiskCell[];
-  selectedId?: string | null;
+  selectedId?: string | null | undefined;
   onSelect: (cell: RiskCell) => void;
-  className?: string;
-  note?: string;
+  className?: string | undefined;
+  note?: string | undefined;
 };
 
 function hexPoints(cx: number, cy: number, r: number) {

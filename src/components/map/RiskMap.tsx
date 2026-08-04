@@ -8,17 +8,17 @@ const LeafletRiskMap = lazy(() => import("./LeafletRiskMap"));
 
 type Props = {
   cells: RiskCell[];
-  selectedId?: string | null;
+  selectedId?: string | null | undefined;
   onSelect: (cell: RiskCell) => void;
-  zoom?: number;
+  zoom?: number | undefined;
 };
 
 class MapErrorBoundary extends Component<{ fallback: ReactNode; children: ReactNode }, { failed: boolean }> {
-  state = { failed: false };
+  override state = { failed: false };
   static getDerivedStateFromError() {
     return { failed: true };
   }
-  render() {
+  override render() {
     return this.state.failed ? this.props.fallback : this.props.children;
   }
 }
