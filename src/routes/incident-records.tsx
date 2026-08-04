@@ -20,7 +20,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DisclaimerBanner, PageHeading, RiskBadge } from "@/components/common";
-import { INCIDENT_RECORDS, LOCALITIES, WILDLIFE_CATEGORIES } from "@/data/mock";
+import {
+  buildIncidentRecords,
+  LOCALITIES,
+  RISK_LABEL,
+  WILDLIFE_CATEGORIES,
+  type IncidentRecord,
+} from "@/data/mock";
+
+const INCIDENT_RECORDS: IncidentRecord[] = buildIncidentRecords();
 
 export const Route = createFileRoute("/incident-records")({
   head: () => ({
@@ -52,10 +60,10 @@ function IncidentRecordsPage() {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return INCIDENT_RECORDS.filter((record) => {
+    return INCIDENT_RECORDS.filter((record: IncidentRecord) => {
       if (locality !== "all" && record.locality !== locality) return false;
       if (category !== "all" && record.category !== category) return false;
-      if (risk !== "all" && record.riskLevel !== risk) return false;
+      if (risk !== "all" && record.risk !== risk) return false;
       if (!q) return true;
       return [record.id, record.locality, record.category, record.outcome, record.weather]
         .join(" ")
@@ -145,9 +153,9 @@ function IncidentRecordsPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All risk levels</SelectItem>
-              {["Low", "Moderate", "High", "Very High"].map((item) => (
+              {(["low", "medium", "high"] as const).map((item) => (
                 <SelectItem key={item} value={item}>
-                  {item}
+                  {RISK_LABEL[item]}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -172,16 +180,16 @@ function IncidentRecordsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rows.map((record) => (
+                {rows.map((record: IncidentRecord) => (
                   <TableRow key={record.id}>
                     <TableCell className="whitespace-nowrap font-mono text-xs">{record.id}</TableCell>
-                    <TableCell className="whitespace-nowrap">{record.date}</TableCell>
+                    <TableCell className="whitespace-nowrap">{record.displayDate}</TableCell>
                     <TableCell className="whitespace-nowrap">{record.time}</TableCell>
                     <TableCell className="whitespace-nowrap">{record.locality}</TableCell>
                     <TableCell className="whitespace-nowrap">{record.category}</TableCell>
                     <TableCell className="whitespace-nowrap">{record.weather}</TableCell>
                     <TableCell>
-                      <RiskBadge level={record.riskLevel} />
+                      <RiskBadge level={record.risk} />
                     </TableCell>
                     <TableCell className="whitespace-nowrap text-muted-foreground">
                       {record.outcome}
