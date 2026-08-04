@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HistoricalRouteImport } from './routes/historical'
+import { Route as ModelInsightsRouteImport } from './routes/model-insights'
 import { Route as RiskMapRouteImport } from './routes/risk-map'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const HistoricalRoute = HistoricalRouteImport.update({
   path: '/historical',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ModelInsightsRoute = ModelInsightsRouteImport.update({
+  id: '/model-insights',
+  path: '/model-insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RiskMapRoute = RiskMapRouteImport.update({
   id: '/risk-map',
   path: '/risk-map',
@@ -32,30 +38,34 @@ const RiskMapRoute = RiskMapRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/historical': typeof HistoricalRoute
+  '/model-insights': typeof ModelInsightsRoute
   '/risk-map': typeof RiskMapRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/historical': typeof HistoricalRoute
+  '/model-insights': typeof ModelInsightsRoute
   '/risk-map': typeof RiskMapRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/historical': typeof HistoricalRoute
+  '/model-insights': typeof ModelInsightsRoute
   '/risk-map': typeof RiskMapRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/historical' | '/risk-map'
+  fullPaths: '/' | '/historical' | '/model-insights' | '/risk-map'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/historical' | '/risk-map'
-  id: '__root__' | '/' | '/historical' | '/risk-map'
+  to: '/' | '/historical' | '/model-insights' | '/risk-map'
+  id: '__root__' | '/' | '/historical' | '/model-insights' | '/risk-map'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HistoricalRoute: typeof HistoricalRoute
+  ModelInsightsRoute: typeof ModelInsightsRoute
   RiskMapRoute: typeof RiskMapRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HistoricalRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/model-insights': {
+      id: '/model-insights'
+      path: '/model-insights'
+      fullPath: '/model-insights'
+      preLoaderRoute: typeof ModelInsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/risk-map': {
       id: '/risk-map'
       path: '/risk-map'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HistoricalRoute: HistoricalRoute,
+  ModelInsightsRoute: ModelInsightsRoute,
   RiskMapRoute: RiskMapRoute,
 }
 export const routeTree = rootRouteImport
