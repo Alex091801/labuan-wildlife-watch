@@ -526,20 +526,20 @@ export function buildIncidentRecords(): IncidentRecord[] {
     const monthIdx = (i * 5) % 12;
     const day = ((i * 7) % 27) + 1;
     const hour = (i * 13) % 24;
-    const cell = RISK_CELLS[i % RISK_CELLS.length];
+    const cell = RISK_CELLS[i % RISK_CELLS.length]!;
     const risk: Exclude<RiskLevel, "unknown"> =
       i % 5 === 0 ? "high" : i % 3 === 0 ? "medium" : "low";
     rows.push({
       id: `INC-${year}-${String(300 - i).padStart(4, "0")}`,
       date: `${year}-${String(monthIdx + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
-      displayDate: `${String(day).padStart(2, "0")} ${months[monthIdx]} ${year}`,
+      displayDate: `${String(day).padStart(2, "0")} ${months[monthIdx]!} ${year}`,
       time: `${String(hour % 12 === 0 ? 12 : hour % 12).padStart(2, "0")}:${String((i * 11) % 60).padStart(2, "0")} ${hour < 12 ? "AM" : "PM"}`,
       locality: cell.locality,
       h3: cell.h3,
-      category: categories[i % categories.length],
-      weather: weathers[i % weathers.length],
+      category: categories[i % categories.length]!,
+      weather: weathers[i % weathers.length]!,
       risk,
-      outcome: outcomes[i % outcomes.length],
+      outcome: outcomes[i % outcomes.length]!,
       completeness: i % 9 === 0 ? "Partial" : "Complete",
     });
   }
@@ -568,7 +568,7 @@ export const HOURLY_DISTRIBUTION = Array.from({ length: 24 }, (_, hour) => {
   const shape = [
     18, 14, 11, 9, 8, 10, 16, 24, 30, 32, 33, 35, 37, 38, 40, 43, 48, 56, 68, 74, 71, 60, 44, 28,
   ];
-  return { hour: `${String(hour).padStart(2, "0")}:00`, incidents: shape[hour] };
+  return { hour: `${String(hour).padStart(2, "0")}:00`, incidents: shape[hour]! };
 });
 
 export const WEATHER_VS_INCIDENTS = [
