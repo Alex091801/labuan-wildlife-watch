@@ -1,5 +1,5 @@
 import { cellToBoundary, cellToLatLng, getResolution, latLngToCell, polygonToCells } from "h3-js";
-import { intersect, polygon as turfPolygon } from "@turf/turf";
+import { featureCollection, intersect, polygon as turfPolygon } from "@turf/turf";
 import type { Feature, Polygon as GeoPolygon } from "geojson";
 import boundaryJson from "@/data/labuan-boundary.json";
 import { RISK_CELLS, type RiskCell } from "@/data/mock";
@@ -53,7 +53,7 @@ export function labuanGrid(): GridCell[] {
 
     let display: Array<[number, number]> = ring.map(([lat, lng]) => [lat!, lng!] as [number, number]);
     try {
-      const clipped = intersect(turfPolygon([lngLat]), BOUNDARY_POLY);
+      const clipped = intersect(featureCollection([turfPolygon([lngLat]), BOUNDARY_POLY]));
       if (!clipped) continue;
       const geom = clipped.geometry;
       const outer =
