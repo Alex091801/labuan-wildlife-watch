@@ -82,21 +82,35 @@ export type RenderedCell = GridCell & { data: RiskCell };
  * Cells with no model output stay "unknown" (grey) — no synthetic risk values.
  */
 export function buildRenderedCells(records: RiskCell[]): RenderedCell[] {
+  const grid = labuanGrid();
+  const gridIndexes = new Set(grid.map((cell) => cell.h3));
   const byIndex = new Map<string, RiskCell>();
   for (const record of records) {
-    byIndex.set(latLngToCell(record.lat, record.lng, H3_RESOLUTION), record);
+    let target = latLngToCell(record.lat, record.lng, H3_RESOLUTION);
+    if (!gridIndexes.has(target)) {
+      // record sits just outside the land boundary — attach it to the nearest land cell
+      let bestD = Number.POSITIVE_INFINITY;
+      for (const cell of grid) {
+        const d = (cell.center[0] - record.lat) ** 2 + (cell.center[1] - record.lng) ** 2;
+        if (d < bestD) {
+          bestD = d;
+          target = cell.h3;
+        }
+      }
+    }
+    if (!byIndex.has(target)) byIndex.set(target, record);
   }
 
-  return labuanGrid().map((grid) => {
-    const matched = byIndex.get(grid.h3);
+  return grid.map((cell) => {
+    const matched = byIndex.get(cell.h3);
     const data: RiskCell = matched
-      ? { ...matched, id: grid.h3, h3: grid.h3, lat: grid.center[0], lng: grid.center[1] }
+      ? { ...matched, id: cell.h3, h3: cell.h3, lat: cell.center[0], lng: cell.center[1] }
       : {
-          id: grid.h3,
-          h3: grid.h3,
-          locality: grid.locality,
-          lat: grid.center[0],
-          lng: grid.center[1],
+          id: cell.h3,
+          h3: cell.h3,
+          locality: cell.locality,
+          lat: cell.center[0],
+          lng: cell.center[1],
           risk: "unknown",
           probability: 0,
           confidence: 0,
@@ -110,7 +124,7 @@ export function buildRenderedCells(records: RiskCell[]): RenderedCell[] {
           dataCompleteness: 0,
           trend: "flat",
         };
-    return { ...grid, data };
+    return { ...cell, data };
   });
 }
 
