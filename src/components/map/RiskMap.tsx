@@ -11,6 +11,7 @@ type Props = {
   selectedId?: string | null | undefined;
   onSelect: (cell: RiskCell) => void;
   zoom?: number | undefined;
+  period?: string | undefined;
 };
 
 class MapErrorBoundary extends Component<{ fallback: ReactNode; children: ReactNode }, { failed: boolean }> {
@@ -39,7 +40,7 @@ export function RiskLegend() {
   );
 }
 
-export function RiskMap({ cells, selectedId, onSelect, zoom }: Props) {
+export function RiskMap({ cells, selectedId, onSelect, zoom, period }: Props) {
   const [tilesOk, setTilesOk] = useState(true);
 
   useEffect(() => {
@@ -65,6 +66,7 @@ export function RiskMap({ cells, selectedId, onSelect, zoom }: Props) {
                 selectedId={selectedId}
                 onSelect={onSelect}
                 zoom={zoom}
+                period={period}
               />
             </Suspense>
           </MapErrorBoundary>

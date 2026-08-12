@@ -235,6 +235,7 @@ function RiskMapPage() {
                   key={`${zoom}-${localityLayer}`}
                   cells={cells}
                   zoom={zoom}
+                  period={period}
                   selectedId={selected?.id ?? null}
                   onSelect={setSelected}
                 />
