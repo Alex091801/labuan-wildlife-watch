@@ -38,6 +38,7 @@ import {
   type RiskCell,
   type TimePeriod,
 } from "@/data/mock";
+import { labuanGrid } from "@/lib/h3grid";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/risk-map")({
@@ -193,7 +194,8 @@ function RiskMapPage() {
                 {localityLayer ? "Locality view" : "H3 cell view"}
               </CardTitle>
               <p className="mt-1 text-xs text-muted-foreground">
-                Forecast window: {period} · {cells.length} cells shown
+                Forecast window: {period} · {labuanGrid().length} H3 resolution-8 cells ·{" "}
+                {cells.length} with model output
               </p>
             </div>
             <div className="flex items-center gap-2">
