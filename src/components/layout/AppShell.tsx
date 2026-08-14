@@ -10,7 +10,6 @@ import {
   ListChecks,
   Map as MapIcon,
   Menu,
-  Shield,
   History,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,6 +18,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ExportReportDialog } from "./ExportReportDialog";
 import { CURRENT_CONDITIONS } from "@/data/mock";
 import { cn } from "@/lib/utils";
+import apmLogo from "@/assets/apm-logo.png";
 
 const NAV = [
   { to: "/", label: "Overview", icon: LayoutDashboard, title: "Overview Dashboard" },
@@ -38,8 +38,8 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
       <div className="flex items-center gap-3 border-b border-sidebar-border px-5 py-5">
-        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-sidebar-primary/15 ring-1 ring-sidebar-primary/40">
-          <Shield className="h-5 w-5 text-sidebar-primary" />
+        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 p-1.5 ring-1 ring-sidebar-primary/40">
+          <img src={apmLogo} alt="APM Logo" className="h-full w-full object-contain" />
         </div>
         <div className="min-w-0">
           <p className="truncate text-sm font-bold text-white">APM Wildlife Risk</p>
@@ -73,8 +73,12 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
           </span>
           Demonstration Data
         </div>
-        <div className="rounded-md border border-dashed border-sidebar-border px-3 py-2 text-center text-[11px] text-sidebar-foreground/60">
-          APM Logo
+        <div className="flex items-center gap-2.5 rounded-lg border border-sidebar-border bg-sidebar-accent/30 p-2">
+          <img src={apmLogo} alt="APM Malaysia Logo" className="h-7 w-7 shrink-0 object-contain" />
+          <div className="min-w-0 text-[11px]">
+            <p className="truncate font-semibold text-white">Pertahanan Awam</p>
+            <p className="truncate text-sidebar-foreground/60">APM Negeri WP Labuan</p>
+          </div>
         </div>
       </div>
     </div>
